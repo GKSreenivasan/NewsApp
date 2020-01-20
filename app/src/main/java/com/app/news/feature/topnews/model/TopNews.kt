@@ -2,8 +2,7 @@ package com.app.news.feature.topnews.model
 
 class TopNews {
 
-    var status: String?=null
-    var totalResults: Int=0
+    var status: String=""
     val articles: List<Article>?=null
 
     data class Article(
