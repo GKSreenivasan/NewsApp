@@ -7,6 +7,14 @@ class NewsRepository {
     private val newsService = NewsService.getInstance()
 
     suspend fun getTopNews(): TopNews?{
-        return newsService.getTopNews()
+        try {
+            val response=newsService.getTopNews()
+            if(response.isSuccessful){
+                return response.body()
+            }
+        } catch (ex:Exception){
+            ex.printStackTrace()
+        }
+        return null
     }
 }
