@@ -38,6 +38,16 @@ class NewsViewModelTest {
     }
 
     @Test
+    fun getTopNews() {
+        runBlocking {
+            val expected = TopNews()
+            Mockito.`when`(repository.getTopNews()).thenReturn(expected)
+            viewModel.loadTopNews()
+            verify(observer).onChanged(expected)
+        }
+    }
+
+    @Test
     fun loadTopNews() {
         runBlocking {
             val expected = TopNews()
