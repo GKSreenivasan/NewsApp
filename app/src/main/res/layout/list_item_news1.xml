@@ -8,7 +8,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
         android:background="#FFF"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="12dp"
         app:cardElevation="0dp"
         >
 
@@ -31,6 +31,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintDimensionRatio="H,16:9"
+                android:paddingBottom="16dp"
+                />
+
+        <TextView
+                android:id="@+id/author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image"
+                android:text="Author"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="4dp"
+                android:textSize="14sp"
+                android:textColor="#101010"
                 />
 
         <TextView
@@ -38,9 +53,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/image"
+                app:layout_constraintTop_toBottomOf="@+id/author"
                 android:text="Title"
-                android:paddingTop="16dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:textSize="18sp"
@@ -49,24 +63,10 @@
                 />
 
         <TextView
-                android:id="@+id/author"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/title"
-                app:layout_constraintStart_toStartOf="parent"
-                android:text="Author"
-                android:paddingTop="4dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:textSize="14sp"
-                android:textColor="#101010"
-                />
-
-        <TextView
                 android:id="@+id/source"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/author"
+                app:layout_constraintTop_toBottomOf="@+id/title"
                 app:layout_constraintStart_toStartOf="parent"
                 android:text="Source"
                 android:paddingTop="16dp"
@@ -74,7 +74,7 @@
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:textSize="14sp"
-                android:textStyle="italic"
+                android:textStyle="normal"
                 />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

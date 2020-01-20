@@ -20,7 +20,7 @@ class NewsAdapter(val callback: (TopNews.Article) -> Unit) : RecyclerView.Adapte
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_news1, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_news, parent, false)
         return ViewHolder(view)
     }
 
@@ -38,11 +38,11 @@ class NewsAdapter(val callback: (TopNews.Article) -> Unit) : RecyclerView.Adapte
         @SuppressLint("SetTextI18n")
         fun bindData(article: TopNews.Article) {
 
-            Glide.with(itemView.context)
+            Glide.with(itemView.image)
                 .load(article.urlToImage)
                 .into(itemView.image)
             itemView.title.text = article.title
-            Log.e("Author",article.author+" .")
+            Log.e("Author", article.author + " .")
             if (article.author != null) {
                 itemView.author.visibility = View.VISIBLE
                 itemView.author.text = article.author
