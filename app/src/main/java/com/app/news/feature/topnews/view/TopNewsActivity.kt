@@ -33,7 +33,7 @@ class TopNewsActivity : AppCompatActivity(), CoroutineScope {
         setContentView(R.layout.activity_topnews)
 
         recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
-        recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        //recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         mJob = Job()
         refresh.setOnRefreshListener {
             loadTopNews()

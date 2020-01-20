@@ -1,6 +1,7 @@
 package com.app.news.feature.topnews.adapter
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +20,7 @@ class NewsAdapter(val callback: (TopNews.Article) -> Unit) : RecyclerView.Adapte
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_news, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_news1, parent, false)
         return ViewHolder(view)
     }
 
@@ -36,11 +37,18 @@ class NewsAdapter(val callback: (TopNews.Article) -> Unit) : RecyclerView.Adapte
 
         @SuppressLint("SetTextI18n")
         fun bindData(article: TopNews.Article) {
+
             Glide.with(itemView.context)
                 .load(article.urlToImage)
                 .into(itemView.image)
-            itemView.author.text = article.author
             itemView.title.text = article.title
+            Log.e("Author",article.author+" .")
+            if (article.author != null) {
+                itemView.author.visibility = View.VISIBLE
+                itemView.author.text = article.author
+            } else {
+                itemView.author.visibility = View.GONE
+            }
             itemView.source.text = "Source: " + article.source.name
             itemView.setOnClickListener {
                 callback(article)
