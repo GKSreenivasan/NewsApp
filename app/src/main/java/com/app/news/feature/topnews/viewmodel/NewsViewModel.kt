@@ -1,5 +1,6 @@
 package com.app.news.feature.topnews.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.app.news.feature.topnews.model.NewsRepository
@@ -9,13 +10,18 @@ class NewsViewModel : ViewModel() {
 
     private val topNewsData = MutableLiveData<TopNews>()
 
-    private val repository = NewsRepository()
+    private lateinit var repository: NewsRepository
 
-    suspend fun loadTopNews(){
-        topNewsData.value = repository.getTopNews()
+    fun setRepository(repository: NewsRepository) {
+        this.repository = repository
     }
 
-    fun getTopNews(): MutableLiveData<TopNews> {
+    suspend fun loadTopNews() {
+        topNewsData.value=repository.getTopNews()
+    }
+
+    fun getTopNews(): LiveData<TopNews> {
         return topNewsData
     }
+
 }

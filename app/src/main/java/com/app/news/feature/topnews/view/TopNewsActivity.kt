@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.news.R
 import com.app.news.feature.topnews.adapter.NewsAdapter
+import com.app.news.feature.topnews.model.NewsRepository
 import com.app.news.feature.topnews.model.TopNews
 import com.app.news.feature.topnews.viewmodel.NewsViewModel
 import kotlinx.android.synthetic.main.activity_topnews.*
@@ -39,6 +40,7 @@ class TopNewsActivity : AppCompatActivity(), CoroutineScope {
         }
 
         viewModel = ViewModelProviders.of(this).get(NewsViewModel::class.java)
+        viewModel.setRepository(NewsRepository())
         subscribeTopNews()
         loadTopNews()
     }
