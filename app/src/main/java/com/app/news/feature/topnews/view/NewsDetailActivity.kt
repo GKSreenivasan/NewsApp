@@ -11,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.app.news.R
 import kotlinx.android.synthetic.main.activity_news_details.*
 
+/**
+ * Activity to Show News Content in WebView
+ */
 class NewsDetailActivity: AppCompatActivity() {
 
     @SuppressLint("SetJavaScriptEnabled")

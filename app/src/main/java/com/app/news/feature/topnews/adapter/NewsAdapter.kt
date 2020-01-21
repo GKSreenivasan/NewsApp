@@ -10,6 +10,10 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.list_item_news.view.*
 import java.util.*
 
+/**
+ *  Adapter Class to Bind and Show Data in RecyclerView.
+ *  It takes lambda function as Parameter to Implement Click Listener
+ */
 class NewsAdapter(val callback: (TopNews.Article) -> Unit) : RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
 
     private var dataSource = emptyList<TopNews.Article>()

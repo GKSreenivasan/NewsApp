@@ -1,5 +1,8 @@
 package com.app.news.feature.topnews.model
 
+/**
+ *  Simple Data Class For Top News JSON Response
+ */
 class TopNews {
 
     var status: String=""

@@ -22,6 +22,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
+/**
+ *  Activity to Show List of Top News
+ */
 class TopNewsActivity : AppCompatActivity(), CoroutineScope {
 
     override val coroutineContext: CoroutineContext
@@ -47,6 +50,9 @@ class TopNewsActivity : AppCompatActivity(), CoroutineScope {
         loadTopNews()
     }
 
+    /**
+     *  Observes to LiveData of Top News Once
+     */
     private fun subscribeTopNews() {
         viewModel.getTopNews().observe(this, Observer {
             Log.e("TopNews=>",""+it?.status)
@@ -64,12 +70,18 @@ class TopNewsActivity : AppCompatActivity(), CoroutineScope {
         })
     }
 
+    /**
+     *  Fetch Top News From ViewModel
+     */
     private fun loadTopNews() = launch(Dispatchers.Main) {
         refresh.isRefreshing = true
         viewModel.loadTopNews()
         refresh.isRefreshing = false
     }
 
+    /**
+     *  Callback When Users Clicks List Item
+     */
     private val callback: (TopNews.Article) -> Unit = {
         val intent = Intent(this, NewsDetailActivity::class.java)
         intent.putExtra("Url", it.url)
