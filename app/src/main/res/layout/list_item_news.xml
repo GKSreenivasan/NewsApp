@@ -22,6 +22,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:paddingBottom="16dp"
+            android:src="@drawable/ic_placeholder"
             />
 
     <TextView

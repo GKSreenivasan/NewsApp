@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.news.R
 import com.app.news.feature.topnews.model.TopNews
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.list_item_news.view.*
 import java.util.*
 
@@ -39,8 +40,13 @@ class NewsAdapter(val callback: (TopNews.Article) -> Unit) : RecyclerView.Adapte
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bindData(article: TopNews.Article) {
-
+            val requestOptions = RequestOptions()
+            requestOptions.apply {
+                placeholder(R.drawable.ic_placeholder)
+                error(R.drawable.ic_placeholder)
+            }
             Glide.with(itemView.image)
+                .setDefaultRequestOptions(requestOptions)
                 .load(article.urlToImage)
                 .into(itemView.image)
             itemView.title.text = article.title
@@ -50,7 +56,8 @@ class NewsAdapter(val callback: (TopNews.Article) -> Unit) : RecyclerView.Adapte
             } else {
                 itemView.author.visibility = View.GONE
             }
-            itemView.source.text = itemView.context.getString(R.string.source).format(Locale.US,article.source.name)//String.format(,article.source.name)
+            itemView.source.text = itemView.context.getString(R.string.source)
+                .format(Locale.US, article.source.name)
             itemView.setOnClickListener {
                 callback(article)
             }
