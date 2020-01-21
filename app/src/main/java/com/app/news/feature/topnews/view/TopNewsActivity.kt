@@ -2,16 +2,19 @@ package com.app.news.feature.topnews.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.news.R
+import com.app.news.database.NewsDAO
 import com.app.news.feature.topnews.adapter.NewsAdapter
 import com.app.news.feature.topnews.model.NewsRepository
 import com.app.news.feature.topnews.model.TopNews
 import com.app.news.feature.topnews.viewmodel.NewsViewModel
+import com.app.news.network.NewsService
 import kotlinx.android.synthetic.main.activity_topnews.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -39,13 +42,14 @@ class TopNewsActivity : AppCompatActivity(), CoroutineScope {
         }
 
         viewModel = ViewModelProviders.of(this).get(NewsViewModel::class.java)
-        viewModel.setRepository(NewsRepository())
+        viewModel.setRepository(NewsRepository(NewsDAO(), NewsService.getInstance()))
         subscribeTopNews()
         loadTopNews()
     }
 
     private fun subscribeTopNews() {
         viewModel.getTopNews().observe(this, Observer {
+            Log.e("TopNews=>",""+it?.status)
             if (it == null || it.status.equals("error", true)) {
                 showMessage("Something Went Wrong!")
                 return@Observer
