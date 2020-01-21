@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.news.R
 import com.app.news.database.NewsDAO
 import com.app.news.feature.topnews.adapter.NewsAdapter
-import com.app.news.feature.topnews.model.NewsRepository
+import com.app.news.feature.topnews.repository.NewsRepositoryImp
 import com.app.news.feature.topnews.model.TopNews
 import com.app.news.feature.topnews.viewmodel.NewsViewModel
 import com.app.news.network.NewsService
@@ -45,7 +45,12 @@ class TopNewsActivity : AppCompatActivity(), CoroutineScope {
         }
 
         viewModel = ViewModelProviders.of(this).get(NewsViewModel::class.java)
-        viewModel.setRepository(NewsRepository(NewsDAO(), NewsService.getInstance()))
+        viewModel.setRepository(
+            NewsRepositoryImp(
+                NewsDAO(),
+                NewsService.getInstance()
+            )
+        )
         subscribeTopNews()
         loadTopNews()
     }
