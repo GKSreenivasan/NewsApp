@@ -1,18 +1,14 @@
 package com.app.news.feature.topnews.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
+import com.app.news.feature.topnews.model.Data
 import com.app.news.feature.topnews.model.TopNews
-import com.app.news.feature.topnews.repository.NewsRepository
-import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertNull
+import com.app.news.feature.topnews.model.TopNewsData
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 
 class NewsViewModelTest {
@@ -21,33 +17,43 @@ class NewsViewModelTest {
     @JvmField
     var rule: TestRule = InstantTaskExecutorRule()
 
-    @Mock
-    private lateinit var repository: NewsRepository
     private lateinit var viewModel: NewsViewModel
-    @Mock
-    lateinit var observer: Observer<TopNews>
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
         viewModel = NewsViewModel()
-        viewModel.setRepository(repository)
-        viewModel.getTopNews().observeForever(observer)
     }
 
     @Test
-    fun loadTopNews() {
-        runBlocking {
-            val expected = TopNews()
-            Mockito.`when`(repository.getTopNews()).thenReturn(expected)
-            viewModel.loadTopNews()
-            verify(observer).onChanged(null)
-        }
+    fun getTopNews_Emits_Loading() {
+        val topNewsData = TopNewsData()
+        viewModel.setValue(topNewsData)
+        assertEquals(Data.State.LOADING, viewModel.getTopNews().value?.getState())
     }
 
     @Test
-    fun getTopNews() {
-        val data = viewModel.getTopNews()
-        assertNull(data.value)
+    fun getTopNews_Throws_Error() {
+        val topNews = TopNews()
+        topNews.status = "error"
+
+        val topNewsData = TopNewsData()
+        topNewsData.setError("Network Error")
+
+        viewModel.setValue(topNewsData)
+        assertEquals("Network Error", viewModel.getTopNews().value?.getError())
     }
+
+    @Test
+    fun getTopNews_Returns_Success() {
+        val topNews = TopNews()
+        topNews.status = "ok"
+
+        val topNewsData = TopNewsData()
+        topNewsData.setData(topNews)
+
+        viewModel.setValue(topNewsData)
+        assertEquals("ok", viewModel.getTopNews().value?.getData()?.status)
+    }
+
 }

@@ -1,27 +1,36 @@
 package com.app.news.feature.topnews.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.app.news.feature.topnews.model.TopNews
+import androidx.lifecycle.*
+import com.app.news.database.NewsDAO
+import com.app.news.feature.topnews.model.TopNewsData
 import com.app.news.feature.topnews.repository.NewsRepository
+import com.app.news.feature.topnews.repository.NewsRepositoryImp
+import com.app.news.network.NewsService
+import kotlinx.coroutines.launch
 
 class NewsViewModel : ViewModel() {
 
-    private val topNewsData = MutableLiveData<TopNews>()
+    private var topNewsLiveData = MutableLiveData<TopNewsData>()
 
-    private lateinit var repository: NewsRepository
+    private var repository: NewsRepository = NewsRepositoryImp(NewsDAO(), NewsService.getInstance())
 
-    fun setRepository(repository: NewsRepository) {
-        this.repository = repository
+    init {
+        fetchTopNews()
     }
 
-    suspend fun loadTopNews() {
-        topNewsData.value=repository.getTopNews()
+    fun getTopNews(): LiveData<TopNewsData> {
+        return topNewsLiveData
     }
 
-    fun getTopNews(): LiveData<TopNews> {
-        return topNewsData
+    fun fetchTopNews() {
+        viewModelScope.launch {
+            repository.getTopNews().asLiveData().observeForever {
+                setValue(it)
+            }
+        }
     }
 
+    fun setValue(data: TopNewsData) {
+        this.topNewsLiveData.value = data
+    }
 }

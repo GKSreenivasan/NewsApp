@@ -1,24 +1,36 @@
 package com.app.news.feature.topnews.repository
 
 import com.app.news.database.NewsDAO
-import com.app.news.feature.topnews.model.TopNews
+import com.app.news.feature.topnews.model.TopNewsData
+import com.app.news.network.ErrorHandler
 import com.app.news.network.NewsService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 
 /**
  *  This Class is used to Fetch Data from Network Service and Save It In Database
  */
 class NewsRepositoryImp(private val newsDAO: NewsDAO, private val newsService: NewsService) : NewsRepository {
 
-    override suspend fun getTopNews(): TopNews? {
+    @ExperimentalCoroutinesApi
+    override suspend fun getTopNews(): Flow<TopNewsData> = flow {
+        val topNewsData = TopNewsData()
+        emit(topNewsData)
         try {
-            val response = newsService.getTopNews()
-            if (response.isSuccessful) {
-                newsDAO.saveTopNews(response.body()!!)
-                return response.body()
+            newsDAO.getTopNews()?.run {
+                topNewsData.setData(this)
+                emit(topNewsData)
             }
-        } catch (ex: Exception) {
-            ex.printStackTrace()
+            newsService.getHeadlines()?.run {
+                newsDAO.saveTopNews(this)
+                topNewsData.setData(this)
+            }
+        } catch (throwable: Throwable) {
+            topNewsData.setError(ErrorHandler(throwable).getMessage())
         }
-        return newsDAO.getTopNews()
-    }
+        emit(topNewsData)
+    }.flowOn(Dispatchers.IO)
 }

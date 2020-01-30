@@ -27,4 +27,7 @@ interface NewsService {
 
     @GET("/v2/top-headlines?country=in&apiKey=1a38df8182df448cbea6721f8e9638d9")
     suspend fun getTopNews(): Response<TopNews>
+
+    @GET("/v2/top-headlines?country=in&apiKey=1a38df8182df448cbea6721f8e9638d9")
+    suspend fun getHeadlines(): TopNews?
 }

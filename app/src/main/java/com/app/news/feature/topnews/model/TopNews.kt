@@ -6,6 +6,7 @@ package com.app.news.feature.topnews.model
 class TopNews {
 
     var status: String=""
+    var message: String=""
     val articles: List<Article>?=null
 
     data class Article(
